@@ -1,0 +1,100 @@
+tags:
+  - name: Auth
+    description: Autentikasi pengguna
+
+paths:
+  /users/register:
+    post:
+      tags: [Auth]
+      summary: Register user baru
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password, confPassword, jenis_kelamin]
+              properties:
+                name:
+                  type: string
+                  example: John Doe
+                email:
+                  type: string
+                  example: john@example.com
+                password:
+                  type: string
+                  example: password123
+                confPassword:
+                  type: string
+                  example: password123
+                jenis_kelamin:
+                  type: string
+                  enum: [laki-laki, perempuan]
+                  example: laki-laki
+                role:
+                  type: string
+                  enum: [admin, user]
+                  example: user
+      responses:
+        "201":
+          description: Register berhasil
+        "400":
+          description: Data tidak valid
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login user
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  example: john@example.com
+                password:
+                  type: string
+                  example: password123
+      responses:
+        "200":
+          description: Login berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        "401":
+          description: Email atau password salah
+  /auth/token:
+    post:
+      tags: [Auth]
+      summary: Refresh Access Token
+      security: []
+      description: Mendapatkan access token baru dan merotasi refresh token menggunakan refresh token dari cookie
+      responses:
+        "200":
+          description: Berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+        "401":
+          description: Refresh token tidak valid atau tidak ada
+  /auth/logout:
+    delete:
+      tags: [Auth]
+      summary: Logout user
+      security: []
+      responses:
+        "200":
+          description: Logout berhasil

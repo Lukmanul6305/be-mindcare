@@ -1,0 +1,128 @@
+tags:
+  - name: Journal
+    description: Jurnal harian user
+
+paths:
+  /journal:
+    get:
+      tags: [Journal]
+      summary: Ambil semua jurnal (Admin Only)
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Berhasil
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+
+    post:
+      tags: [Journal]
+      summary: Buat entri jurnal baru
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [judul, isi]
+              properties:
+                judul:
+                  type: string
+                  example: Hari yang melelahkan
+                isi:
+                  type: string
+                  example: Hari ini sangat berat tapi saya tetap bersyukur
+      responses:
+        "201":
+          description: Berhasil dibuat
+        "401":
+          description: Unauthorized
+
+  /journal/me:
+    get:
+      tags: [Journal]
+      summary: Ambil semua jurnal milik user login
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Berhasil
+        "401":
+          description: Unauthorized
+
+  /journal/{id}:
+    get:
+      tags: [Journal]
+      summary: Ambil detail jurnal berdasarkan ID (Admin Only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Berhasil
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: Jurnal tidak ditemukan
+
+    put:
+      tags: [Journal]
+      summary: Update jurnal milik user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                judul:
+                  type: string
+                  example: Judul Baru
+                isi:
+                  type: string
+                  example: Isi jurnal yang sudah diupdate
+      responses:
+        "200":
+          description: Berhasil diupdate
+        "401":
+          description: Unauthorized
+        "404":
+          description: Jurnal tidak ditemukan
+
+    delete:
+      tags: [Journal]
+      summary: Hapus jurnal milik user
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Berhasil dihapus
+        "401":
+          description: Unauthorized
+        "404":
+          description: Jurnal tidak ditemukan

@@ -1,0 +1,63 @@
+tags:
+  - name: Users
+    description: Manajemen data user (Admin Only)
+
+paths:
+  /auth/users:
+    get:
+      tags: [Users]
+      summary: Ambil semua data user (Admin Only)
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Berhasil
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+
+  /auth/users/{id}:
+    get:
+      tags: [Users]
+      summary: Ambil detail user berdasarkan ID (Admin Only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        "200":
+          description: Berhasil
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: User tidak ditemukan
+
+    delete:
+      tags: [Users]
+      summary: Hapus user berdasarkan ID (Admin Only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        "200":
+          description: Berhasil dihapus
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          description: User tidak ditemukan
