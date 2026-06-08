@@ -1,4 +1,1 @@
-*.keras
-*.h5
-.env
-model/
+.env/
